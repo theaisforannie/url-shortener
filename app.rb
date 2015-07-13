@@ -39,6 +39,10 @@ end
 # at the time the shortened url is visited
 get '/:foo' do
   url_key = params['foo']
-  original_url = url_hash[url_key]
+  if url_hash.has_key?(url_key)
+  	original_url = url_hash[url_key]
+  else
+  	redirect to("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+  end
   redirect to(original_url)
 end
