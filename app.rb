@@ -18,9 +18,6 @@ post '/' do
 end
 
 get '/:foo' do
-  # matches "GET /hello/foo" and "GET /hello/bar"
-  # params['name'] is 'foo' or 'bar'
-  # "Hello #{params['name']}!"
   url_key = params['foo']
   original_url = url_hash[url_key]
   redirect to(original_url)
