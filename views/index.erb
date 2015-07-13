@@ -5,9 +5,15 @@
 	</head>
 
 	<body>
-		<form action="/" method="POST">
-			<input type="text" name="original-url" />
-			<button type="submit">Submit</button>
-		</form>
+		<% if @short_url != nil %>
+			<%= @short_url %>
+			<h1>yum that was delicious</h1>
+		<% else %>
+			<h1>we eat urls like peaches</h1>
+			<form action="/" method="POST">
+				<input type="text" name="original-url" />
+				<button type="submit">Submit</button>
+			</form>
+		<% end %>
 	</body>
 </html>

@@ -1,7 +1,6 @@
 require 'sinatra'
 
 get '/' do
-	@name = "Person"
 	erb :index
 end
 
@@ -10,7 +9,8 @@ post '/' do
 	url = params['original-url']
 	url_key = url.hash.to_s
 	url_hash[url_key] = url
-	"localhost:4567/#{url_key}"
+	@short_url = "localhost:4567/#{url_key}"
+	erb :index
 end
 
 get '/:foo' do
