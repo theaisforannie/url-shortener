@@ -9,7 +9,11 @@ post '/' do
 	url = params['original-url']
 	url_key = url.hash.to_s
 	url_hash[url_key] = url
-	@short_url = "localhost:4567/#{url_key}"
+	req_port = ""
+	if request.port != 80
+		req_port = ":#{request.port}"
+	end
+	@short_url = "#{request.scheme}://#{request.host}#{req_port}/#{url_key}"
 	erb :index
 end
 
