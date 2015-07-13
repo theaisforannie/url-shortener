@@ -1,7 +1,5 @@
 require 'sinatra'
 
-set :port, 80
-
 # a hash for urls
 # keys are short urls
 # values are original urls
