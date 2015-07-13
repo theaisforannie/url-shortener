@@ -6,6 +6,15 @@ require 'sinatra'
 # TODO make an actual database idk
 url_hash = {}
 
+def url_to_short_string()
+	chars = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a
+	short_chars = ""
+	while short_chars.length < 10
+		short_chars << chars.sample
+	end
+	short_chars
+end
+
 get '/' do
 	erb :index
 end
@@ -13,8 +22,7 @@ end
 post '/' do
 	url = params['original-url']
 	# make the url into a short thing
-	# TODO actually make the url shorter
-	url_key = url.hash.to_s
+	url_key = url_to_short_string()
 	url_hash[url_key] = url
 	# generate short url
 	req_port = ""
