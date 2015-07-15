@@ -1,10 +1,12 @@
 require 'sinatra'
+require 'sqlite3'
 
 # a hash for urls
 # keys are short urls
 # values are original urls
 # TODO make an actual database idk
 url_hash = {}
+db = SQLite3::Database.new "url-modifier.db"
 
 def url_to_short_string()
 	chars = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a
@@ -24,6 +26,8 @@ post '/' do
 	# make the url into a short thing
 	url_key = url_to_short_string()
 	url_hash[url_key] = url
+	db.execute "INSERT INTO url_enhancements (short_url, actual_url) VALUES(?, ?)", \
+		[url_key, url]
 	# generate short url
 	req_port = ""
 	if request.port != 80
