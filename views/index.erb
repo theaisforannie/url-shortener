@@ -10,8 +10,13 @@
 			<h1>yum that was delicious</h1>
 		<% else %>
 			<h1>we eat urls like peaches</h1>
-			<form action="/" method="POST">
+			<form action="/short" method="POST">
 				<input type="text" name="original-url" />
+				<button type="submit">Submit</button>
+			</form>
+			<h2>perhaps you would like a longer url instead</h2>
+			<form action="/long" method="POST">
+				<input type="text" name="url-to-be-lengthened" />
 				<button type="submit">Submit</button>
 			</form>
 		<% end %>

@@ -17,11 +17,20 @@ def url_to_short_string()
 	short_chars
 end
 
-get '/' do
+def extraneous_long_url_characters()
+  chars = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a
+  extra_chars = ""
+  while extra_chars.length < 500
+    extra_chars << chars.sample
+  end
+  extra_chars
+end
+
+get '/short' do
 	erb :index
 end
 
-post '/' do
+post '/short' do
 	url = params['original-url']
 	# make the url into a short thing
 	url_key = url_to_short_string()
@@ -38,11 +47,30 @@ post '/' do
 	erb :index
 end
 
+post '/long' do
+  url = params['url-to-be-lengthened']
+  url_key = url_to_short_string
+  url_hash[url_key] = url
+  db.execute "INSERT INTO url_enhancements (short_url, actual_url) VALUES(?, ?)", \
+    [url_key, url]
+  extraneous_chars = extraneous_long_url_characters
+  req_port = ""
+  if request.port != 80
+    req_port = ":#{request.port}"
+  end
+  @long_url = "#{request.scheme}://#{request.host}#{req_port}/#{url_key}#{extraneous_chars}"
+end
+
 # ':foo' matches anything after '/'
 # plain annie language: foo is the key of the params hash 
 # at the time the shortened url is visited
 get '/:foo' do
-  url_key = params['foo']
+  url_key = params['foo'][0..9]
+  db.execute "SELECT actual_url FROM url_enhancements WHERE short_url = '#{url_key}'" do |foo|
+  	puts foo
+  end
+
+
   if url_hash.has_key?(url_key)
   	original_url = url_hash[url_key]
   else
