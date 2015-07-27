@@ -42,7 +42,7 @@ post '/short' do
 	if request.port != 80
 		req_port = ":#{request.port}"
 	end
-	@short_url = "#{request.scheme}://#{request.host}#{req_port}/#{url_key}"
+	@short_url = "#{request.scheme}://#{request.host}/#{url_key}"
 
 	erb :index
 end
@@ -58,7 +58,7 @@ post '/long' do
   if request.port != 80
     req_port = ":#{request.port}"
   end
-  @long_url = "#{request.scheme}://#{request.host}#{req_port}/#{url_key}#{extraneous_chars}"
+  @long_url = "#{request.scheme}://#{request.host}/#{url_key}#{extraneous_chars}"
 end
 
 # ':foo' matches anything after '/'
